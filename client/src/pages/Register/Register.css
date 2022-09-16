@@ -1,0 +1,126 @@
+body {
+  background-color: #fafafa;
+}
+
+.register {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  width: 350px;
+  height: 650px;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+}
+
+.register-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 140px;
+}
+
+.register-title h2 {
+  text-align: center;
+  margin: 0 30px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #8e8e8e;
+}
+
+.register p {
+  text-align: center;
+  margin: 10px 30px 10px;
+  font-size: 12px;
+  font-weight: 300;
+  color: #8e8e8e;
+}
+
+.register span {
+  font-weight: 500;
+  color: #8e8e8e;
+}
+
+.register span:hover {
+  cursor: pointer;
+  color: #0095f6;
+}
+
+.register-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.register-form form input {
+  font-family: roboto;
+  width: 260px;
+  height: 30px;
+  margin: 5px 0;
+  padding: 2px 8px;
+  text-overflow: ellipsis;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  font-size: 12px;
+  outline: none;
+  background-color: rgba(var(--b3f, 250, 250, 250), 1);
+}
+
+.btn {
+  font-family: roboto;
+  width: 280px;
+  height: 30px;
+  margin: 5px 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  border: none;
+  background-color: #0095f6;
+  color: #fff;
+  font-weight: 500;
+  margin: 10px auto;
+}
+
+.btn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.register-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  width: 350px;
+  height: 70px;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+}
+
+.register-login span {
+  color: #0095f6;
+}
+
+.register-login span:hover {
+  opacity: 0.8;
+}
+
+.register-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  width: 100%;
+  height: 70px;
+}

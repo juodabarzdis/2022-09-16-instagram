@@ -1,0 +1,101 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 470px;
+  padding: 10px;
+}
+
+.post p {
+  margin: 2px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #000;
+}
+
+.post span {
+  font-weight: 500;
+  color: #000;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.post-header-avatar img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-functions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.post-functions-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: space-evenly;
+  width: 100px;
+}
+
+.post-write-comment {
+  border-top: 1px solid #ccc;
+
+  margin-top: 5px;
+}
+.post-write-comment form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.post-time {
+  margin: 5px;
+}
+
+.post-time p {
+  font-size: 12px;
+  font-weight: 300;
+  color: #000;
+  margin: 0;
+}
+
+.post-write-comment input {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+}
+
+.post-write-comment button {
+  outline: none;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  height: 40px;
+  padding-right: 10px;
+  color: #0095f6;
+  font-family: roboto;
+  font-size: 15px;
+  font-weight: 600;
+}
+.add-comment {
+  width: 100%;
+}
