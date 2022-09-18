@@ -13,10 +13,13 @@ const Main = () => {
   useEffect(() => {
     Axios.get("/api/posts/")
       .then((res) => {
+        console.log(res);
         setPosts(res.data);
       })
       .catch((error) => console.log(error));
   }, []);
+
+  console.log(posts);
 
   return (
     <div className="main">
@@ -25,12 +28,16 @@ const Main = () => {
         <Post
           key={post.id}
           id={post.id}
+          post_userId={post.userId}
           image={post.image}
           caption={post.caption}
-          username={userInfo.username}
+          author_image={post.author_image}
           userId={userInfo.id}
           setRefresh={setRefresh}
           refresh={refresh}
+          username={post.user.username}
+          currentUser={userInfo.username}
+          likes={post.likes}
         />
       ))}
     </div>

@@ -8,12 +8,15 @@ import upload from "../middleware/multer.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const options = {};
-  if (req.query.order) {
-    options.order = [["createdAt", "ASC"]];
-  }
+  // const options = {};
+  // if (req.query.order) {
+  //   options.order = [["createdAt", "ASC"]];
+  // }
   try {
-    const posts = await db.Posts.findAll(options);
+    const posts = await db.Posts.findAll({
+      include: [db.Users, db.Likes],
+      order: [["createdAt", "DESC"]],
+    });
     res.json(posts);
   } catch (error) {
     res.status(500).send("Server error");
@@ -23,10 +26,24 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const post = await db.Posts.findByPk(req.params.id, {
-      include: [db.Users, db.Comments],
+      include: [db.Users, db.Comments, db.Likes],
     });
-    console.log(post);
     res.json(post);
+  } catch {
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/user/:id", async (req, res) => {
+  try {
+    const posts = await db.Posts.findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: [db.Users, db.Likes, db.Comments],
+      order: [["createdAt", "DESC"]],
+    });
+    res.json(posts);
   } catch {
     res.status(500).send("Server error");
   }

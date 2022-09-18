@@ -47,7 +47,6 @@ router.post("/login", loginValidator, async (req, res) => {
       user.dataValues.password
     );
     if (validPassword) {
-      console.log(user);
       req.session.loggedIn = true;
       req.session.user = {
         id: user.id,
@@ -57,12 +56,27 @@ router.post("/login", loginValidator, async (req, res) => {
         role: user.role,
       };
       return res.json({
+        loggedIn: req.session.loggedIn,
         response: req.session.user,
         message: "Login successful",
       });
     } else console.log("User successfully logged in");
   } catch {
     res.status(500).send("Error occured");
+  }
+});
+
+router.get("/user/:id", async (req, res) => {
+  try {
+    const user = await db.Users.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
   }
 });
 

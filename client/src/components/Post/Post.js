@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 import "./Post.css";
 import Dots from "../icons/Dots";
@@ -6,11 +7,26 @@ import Heart from "../icons/Activity";
 import Comment from "../icons/Comment";
 import Message from "../icons/Inbox";
 import Favorite from "../icons/Favorite";
+import Liked from "../icons/Liked";
 
 const Post = (props) => {
-  const { image, caption, id, username, userId, refresh, setRefresh } = props;
+  const inputRef = useRef(null);
+  const {
+    image,
+    caption,
+    id,
+    post_userId,
+    username,
+    userId,
+    refresh,
+    setRefresh,
+    author_image,
+    currentUser,
+  } = props;
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [likes, setLikes] = useState([]);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     Axios.get("/api/posts/" + id).then((res) => {
@@ -19,17 +35,50 @@ const Post = (props) => {
   }, [refresh]);
 
   const handleForm = (e) => {
-    console.log("refresg" + refresh);
     e.preventDefault();
-
+    inputRef.current.value = "";
     Axios.post("/api/comments/", {
       comment,
       postId: id,
       userId,
-      username,
+      username: currentUser,
     }).then((res) => {
       setRefresh(!refresh);
     });
+  };
+
+  useEffect(() => {
+    Axios.get("/api/likes/" + id).then((res) => {
+      setLikes(res.data);
+    });
+  }, [refresh]);
+
+  const handleLike = async (e) => {
+    e.preventDefault();
+
+    await Axios.get("/api/likes/" + id).then((res) => {
+      const data = res.data;
+      data.map((element) => {
+        if (element.userId === userId) {
+          return;
+        }
+      });
+    });
+
+    Axios.post("/api/likes/" + id, {
+      like: 1,
+      userId,
+    }).then((res) => {
+      setLiked(!liked);
+      setRefresh(!refresh);
+    });
+  };
+
+  const handleImageLike = (e) => {
+    if (e.detail === 2) {
+      handleLike(e);
+      setLiked(!liked);
+    }
   };
 
   return (
@@ -37,22 +86,31 @@ const Post = (props) => {
       <div className="post-header">
         <div className="post-header-left">
           <div className="post-header-avatar">
-            <img
-              src="https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png"
-              alt="profile image"
-            />
+            {author_image ? (
+              <img src={author_image} alt="profile image" />
+            ) : (
+              <img
+                src="https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png"
+                alt="profile image"
+              />
+            )}
+          </div>
+          <div className="post-header-username">
+            <Link to={"/profile/" + post_userId}>{username}</Link>
           </div>
         </div>
         <div className="post-header-right">
           <Dots />
         </div>
       </div>
-      <div className="post-image">
+      <div className="post-image" onClick={(e) => handleImageLike(e)}>
         <img src={image} alt="" />
       </div>
       <div className="post-functions">
         <div className="post-functions-left">
-          <Heart />
+          <div onClick={(e) => handleLike(e)}>
+            {liked ? <Liked /> : <Heart />}
+          </div>
           <Comment />
           <Message />
         </div>
@@ -61,13 +119,12 @@ const Post = (props) => {
         </div>
       </div>
       <div className="post-likes">
-        <p>
-          <span>100 likes</span>
-        </p>
+        {likes.length} {likes.length === 1 ? "like" : "likes"}
+        <p></p>
       </div>
       <div className="post-caption">
         <p>
-          <span className="">Vilus </span>
+          <span className="">{username} </span>
           {caption}
         </p>
       </div>
@@ -92,6 +149,7 @@ const Post = (props) => {
               name="comment"
               type="text"
               placeholder="Add a comment..."
+              ref={inputRef}
             />
           </div>
           <div>

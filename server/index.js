@@ -4,6 +4,7 @@ import session from "express-session";
 import Users from "./controller/users.js";
 import Posts from "./controller/posts.js";
 import Comments from "./controller/comments.js";
+import Likes from "./controller/likes.js";
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.use(
   session({
     name: "session",
     secret: "1234",
-    resave: false,
+    resave: true, // pakeiciau sita
     saveUninitialized: false,
     cookie: {
       secure: false, // only send cookie over https if true
@@ -34,6 +35,7 @@ app.use(
 app.use("/api/users", Users);
 app.use("/api/posts", Posts);
 app.use("/api/comments", Comments);
+app.use("/api/likes", Likes);
 
 app.use("/uploads", express.static("uploads"));
 

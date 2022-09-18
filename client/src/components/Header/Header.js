@@ -7,11 +7,18 @@ import Inbox from "../icons/Inbox";
 import Explore from "../icons/Explore";
 import Activity from "../icons/Activity";
 import AddNewPost from "../../pages/NewPost/NewPost";
+import Profile from "../icons/Profile";
 
 const Header = () => {
   const { loggedIn, userInfo } = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const profileRef = useRef(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const closeModal = (e) => {
+    if (profileRef.current === e.target) {
+      setShowProfile(false);
+    }
+  };
 
   // const [modalData, setModalData] = useState({
   //   name: "",
@@ -19,6 +26,10 @@ const Header = () => {
 
   const openModal = () => {
     setShowModal((prev) => !prev);
+  };
+
+  const showDrop = () => {
+    setShowProfile((prev) => !prev);
   };
 
   useEffect(() => {
@@ -31,30 +42,32 @@ const Header = () => {
 
   return (
     <>
-      <div className="header">
+      <div className="header" onClick={closeModal}>
         {showModal && (
           <AddNewPost showModal={showModal} setShowModal={setShowModal} />
         )}
         <div className="header-content">
           <div className="header-logo">
             <div>
-              <img
-                src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"
-                alt="instagram logo"
-              />
+              <Link to="/main">
+                <img
+                  src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"
+                  alt="instagram logo"
+                />
+              </Link>
             </div>
           </div>
           <div className="header-search">
             <input type="text" placeholder="Search" />
           </div>
           <div className="header-icons">
-            <div onClick={openModal}>
+            <div onClick={openModal} className="header-newPost">
               <NewPost />
             </div>
             <Inbox />
             <Explore />
             <Activity />
-            <div className="header-profile">
+            <div className="header-profile" onClick={showDrop}>
               {loggedIn && userInfo.image ? (
                 <img src={userInfo.image} alt="profile" />
               ) : (
@@ -64,16 +77,20 @@ const Header = () => {
                 />
               )}
             </div>
-            <div ref={profileRef} className="header-profile-drop">
-              <ul>
-                <li>
-                  <Link to="#"> Profile</Link>
-                </li>
-                <li>
-                  <Link to="/logout">Logout</Link>
-                </li>
-              </ul>
-            </div>
+            {showProfile && (
+              <div className="header-profile-drop">
+                <ul>
+                  <Link to={"/profile/" + userInfo.id}>
+                    <li>
+                      <Profile /> Profile
+                    </li>
+                  </Link>
+                  <Link to="/logout">
+                    <li>Logout</li>
+                  </Link>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

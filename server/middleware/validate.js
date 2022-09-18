@@ -63,6 +63,8 @@ export const postValidator = (req, res, next) => {
   const schema = Joi.object({
     caption: Joi.string().max(255).allow(""),
     author_image: Joi.string().max(255).allow(""),
+    username: Joi.string().min(2).max(50).required(),
+    userId: Joi.number().required(),
     image: Joi.string().allow(""),
   });
 
@@ -77,6 +79,14 @@ export const commentsValidator = (req, res, next) => {
     userId: Joi.number().required(),
   });
 
+  validate(schema, req, res, next);
+};
+
+export const ratingsValidator = (req, res, next) => {
+  const schema = Joi.object({
+    like: Joi.number().required(),
+    userId: Joi.number().required(),
+  });
   validate(schema, req, res, next);
 };
 

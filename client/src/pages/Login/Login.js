@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     await Axios.post("/api/users/login/", form)
       .then((res) => {
-        localStorage.setItem("loggedIn", "true");
+        // localStorage.setItem("loggedIn", "true");
         console.log(res);
         setUserInfo(res.data.response);
         setLoggedIn(true);

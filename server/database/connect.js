@@ -5,6 +5,7 @@ import mysql from "mysql2/promise";
 import Users from "../model/users.js";
 import Posts from "../model/posts.js";
 import Comments from "../model/comments.js";
+import Likes from "../model/likes.js";
 
 const database = {};
 
@@ -44,20 +45,26 @@ try {
   database.Users = Users(sequelize);
   database.Posts = Posts(sequelize);
   database.Comments = Comments(sequelize);
+  database.Likes = Likes(sequelize);
 
   // Create relationships
 
   database.Posts.hasMany(database.Comments);
-  database.Users.hasMany(database.Comments);
+  database.Posts.hasMany(database.Likes);
+
   database.Users.hasMany(database.Posts, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   });
   database.Posts.belongsTo(database.Users);
+  database.Comments.belongsTo(database.Users);
+  database.Comments.belongsTo(database.Posts);
+  database.Likes.belongsTo(database.Users);
+  database.Likes.belongsTo(database.Posts);
 
   // Sync database
 
-  await sequelize.sync({ alter: true }); // alter: true - if table already exist, it will not create new table, but it will add new column
+  await sequelize.sync({ alter: false }); // alter: true - if table already exist, it will not create new table, but it will add new column
 } catch {
   console.log("Error connecting to database");
 }

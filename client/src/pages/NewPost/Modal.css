@@ -14,54 +14,84 @@
 }
 
 .modal {
-  border-bottom: 1px solid #dbdbdb;
   display: flex;
-  width: 35rem;
+  position: relative;
   height: 20rem;
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 7px 8px 15px -11px rgba(0, 0, 0, 0.406);
   overflow: auto;
 }
-/* .modal-left {
+
+.modal-content {
+  display: flex;
+}
+
+.modal-left {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 2rem;
-  min-width: 30%;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-} */
+  margin: 10px;
+  overflow: hidden;
+  width: 200px;
+}
 
-/* .modal-left img {
-  max-width: 10rem;
-} */
-
+.modal-preview {
+  width: 200px;
+}
 .modal-right {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  width: 20rem;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  overflow: hidden;
 }
 
 .modal-exit {
-  text-align: right;
-  margin: 10px 20px 30px 0px;
+  position: absolute;
+  right: 0;
+  margin: 10px;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+
+.modal-input-div {
+  background-color: #f2f2f2;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.modal-input-div:hover {
   cursor: pointer;
 }
 
-.modal-content {
-  margin: 2rem;
+.modal-input-div input {
+  display: none;
 }
 
-.modal-title h3 {
-  font-size: 1.4rem;
-  font-weight: bold;
+.modal-form-div {
+  margin: auto;
+  width: 100%;
 }
 
-h6 {
-  font-size: 1rem;
-  font-weight: bold;
-  color: dimgray;
+.modal-textarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal-title {
-  margin-bottom: 2rem;
+textarea {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+.modal-textarea button {
+  margin: 10px 0;
 }
