@@ -49,22 +49,17 @@ const Post = (props) => {
 
   useEffect(() => {
     Axios.get("/api/likes/" + id).then((res) => {
+      const data = res.data;
+      data.map((like) => {
+        if (like.userId === userId) {
+          setLiked(true);
+        }
+      });
       setLikes(res.data);
     });
   }, [refresh]);
 
-  const handleLike = async (e) => {
-    e.preventDefault();
-
-    await Axios.get("/api/likes/" + id).then((res) => {
-      const data = res.data;
-      data.map((element) => {
-        if (element.userId === userId) {
-          return;
-        }
-      });
-    });
-
+  const handleLike = () => {
     Axios.post("/api/likes/" + id, {
       like: 1,
       userId,
@@ -73,6 +68,32 @@ const Post = (props) => {
       setRefresh(!refresh);
     });
   };
+
+  // const handleLike = async (e) => {
+  //   e.preventDefault();
+  //   if (liked) {
+  //     await Axios.get("/api/likes/" + id).then((res) => {
+  //       const data = res.data;
+  //       // console.log(data);
+  //       data.map((element) => {
+  //         if (element.userId === userId) {
+  //           console.log("rastas likeas");
+  //           Axios.delete("/api/likes/delete/" + element.id).then((res) => {
+  //             setRefresh(!refresh);
+  //           });
+  //         }
+  //       });
+  //     });
+  //   } else {
+  //     Axios.post("/api/likes/" + id, {
+  //       like: 1,
+  //       userId,
+  //     }).then((res) => {
+  //       setLiked(!liked);
+  //       setRefresh(!refresh);
+  //     });
+  //   }
+  // };
 
   const handleImageLike = (e) => {
     if (e.detail === 2) {

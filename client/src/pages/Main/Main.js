@@ -10,6 +10,10 @@ const Main = () => {
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
+  // if (!loggedIn) {
+  //   window.location.href = "/login";
+  // }
+
   useEffect(() => {
     Axios.get("/api/posts/")
       .then((res) => {
@@ -18,8 +22,6 @@ const Main = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-
-  console.log(posts);
 
   return (
     <div className="main">

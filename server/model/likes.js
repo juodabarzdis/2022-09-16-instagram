@@ -4,6 +4,7 @@ const Likes = (sequelize) => {
   const Schema = {
     like: {
       type: DataTypes.BOOLEAN,
+      // unique: true,
       allowNull: false,
     },
     userId: {

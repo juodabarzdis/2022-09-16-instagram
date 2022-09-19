@@ -23,7 +23,7 @@ app.use(
   session({
     name: "session",
     secret: "1234",
-    resave: true, // pakeiciau sita
+    resave: false, // pakeiciau sita
     saveUninitialized: false,
     cookie: {
       secure: false, // only send cookie over https if true
