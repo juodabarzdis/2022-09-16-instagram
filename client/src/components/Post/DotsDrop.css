@@ -1,0 +1,11 @@
+.post-header-right {
+  position: relative;
+  cursor: pointer;
+}
+
+.dots-drop {
+  position: absolute;
+  top: 30px;
+  right: -130px;
+  width: 230px;
+}

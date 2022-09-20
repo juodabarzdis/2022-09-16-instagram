@@ -5,14 +5,14 @@ import MainContext from "../../context/MainContext";
 import "./Modal.css";
 
 const NewPost = ({ showModal, setShowModal }) => {
-  const { userInfo, profileImage, refresh, setRefresh } =
+  const { userInfo, profileInfo, refresh, setRefresh } =
     useContext(MainContext);
   const [postForm, setPostForm] = useState({
     image: "",
     caption: "",
     userId: userInfo.id,
     username: userInfo.username,
-    author_image: profileImage ? profileImage : "",
+    author_image: profileInfo.image ? profileInfo.image : "",
   });
   const [filepreview, setFilepreview] = useState("");
   const modalRef = useRef(null);

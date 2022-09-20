@@ -62,10 +62,10 @@
   color: #000;
 }
 
-.post-image img {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+.post-image {
+  height: 500px;
+  background-size: cover;
+  background-position: center;
 }
 
 .post-functions {

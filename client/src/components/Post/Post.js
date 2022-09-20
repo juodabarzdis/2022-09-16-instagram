@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import "./Post.css";
+import "./DotsDrop.css";
 import Dots from "../icons/Dots";
 import Heart from "../icons/Activity";
 import Comment from "../icons/Comment";
@@ -28,6 +29,7 @@ const Post = (props) => {
   const [comment, setComment] = useState("");
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [showDots, setShowDots] = useState(false);
   createdAt = new Date(createdAt).toLocaleString("lt-LT");
 
   useEffect(() => {
@@ -75,6 +77,10 @@ const Post = (props) => {
     }
   };
 
+  const showDotsDrop = () => {
+    setShowDots((prev) => !prev);
+  };
+
   return (
     <div className="post">
       <div className="post-header">
@@ -93,12 +99,24 @@ const Post = (props) => {
             <Link to={"/profile/" + post_userId}>{username}</Link>
           </div>
         </div>
-        <div className="post-header-right">
+        <div className="post-header-right" onClick={showDotsDrop}>
           <Dots />
+          {showDots && (
+            <div className="header-profile-drop dots-drop">
+              <ul>
+                <li>Edit post</li>
+                <li>Delete post</li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
-      <div className="post-image" onClick={(e) => handleImageLike(e)}>
-        <img src={image} alt="post" />
+      <div
+        className="post-image"
+        onClick={(e) => handleImageLike(e)}
+        style={{ backgroundImage: `url(${image})` }}
+      >
+        {/* <img src={image} alt="post" /> */}
       </div>
       <div className="post-functions">
         <div className="post-functions-left">
