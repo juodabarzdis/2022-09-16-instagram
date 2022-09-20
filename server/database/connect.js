@@ -52,10 +52,8 @@ try {
   database.Posts.hasMany(database.Comments);
   database.Posts.hasMany(database.Likes);
 
-  database.Users.hasMany(database.Posts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  });
+  database.Users.hasMany(database.Posts);
+  database.Users.belongsTo(database.Posts);
   database.Posts.belongsTo(database.Users);
   database.Comments.belongsTo(database.Users);
   database.Comments.belongsTo(database.Posts);
@@ -65,7 +63,8 @@ try {
   // Sync database
 
   await sequelize.sync({ alter: true }); // alter: true - if table already exist, it will not create new table, but it will add new column
-} catch {
+} catch (error) {
+  console.log(error);
   console.log("Error connecting to database");
 }
 

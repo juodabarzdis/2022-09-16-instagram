@@ -23,11 +23,12 @@ app.use(
   session({
     name: "session",
     secret: "1234",
-    resave: false, // pakeiciau sita
+    resave: true, // pakeiciau sita
     saveUninitialized: false,
     cookie: {
       secure: false, // only send cookie over https if true
-      maxAge: 600000,
+      expires: new Date(Date.now() + 60 * 1000000000),
+      maxAge: 60 * 1000000000,
     },
   })
 );

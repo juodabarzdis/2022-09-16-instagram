@@ -7,8 +7,10 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Main from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";
+import EditProfile from "./pages/Profile/EditProfile";
 
 function App() {
+  const [profileInfo, setProfileInfo] = useState({});
   const [alert, setAlert] = useState({
     message: "",
   });
@@ -20,6 +22,7 @@ function App() {
     image: "",
     role: "",
   });
+  const [refresh, setRefresh] = useState(false);
 
   const contextValues = {
     alert,
@@ -28,15 +31,27 @@ function App() {
     setLoggedIn,
     userInfo,
     setUserInfo,
+    refresh,
+    setRefresh,
+    profileInfo,
+    setProfileInfo,
   };
+
+  console.log(userInfo);
 
   useEffect(() => {
     Axios.get("/api/users/check-auth").then((res) => {
-      console.log(res);
       setLoggedIn(true);
       setUserInfo(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    Axios.get("/api/users/user/" + userInfo.id).then((res) => {
+      console.log(res.data);
+      setProfileInfo(res.data);
+    });
+  }, [userInfo, refresh]);
 
   return (
     <BrowserRouter>
@@ -47,6 +62,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/main" element={<Main />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/profile/edit/:id" element={<EditProfile />} />
         </Routes>
       </MainContext.Provider>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from "axios";
 import MainContext from "../../context/MainContext";
 import "./Header.css";
 import NewPost from "../icons/NewPost";
@@ -8,28 +9,35 @@ import Explore from "../icons/Explore";
 import Activity from "../icons/Activity";
 import AddNewPost from "../../pages/NewPost/NewPost";
 import Profile from "../icons/Profile";
+import InstagramLogo from "../../images/instagram-logo.png";
 
 const Header = () => {
-  const { loggedIn, userInfo } = useContext(MainContext);
+  const { loggedIn, userInfo, profileInfo } = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const profileRef = useRef(null);
   const [showProfile, setShowProfile] = useState(false);
+
+  const navigate = useNavigate();
+
   const closeModal = (e) => {
     if (profileRef.current === e.target) {
-      setShowProfile(false);
+      setShowProfile(!false);
     }
-  };
-
-  // const [modalData, setModalData] = useState({
-  //   name: "",
-  // });
-
-  const openModal = () => {
-    setShowModal((prev) => !prev);
   };
 
   const showDrop = () => {
     setShowProfile((prev) => !prev);
+  };
+
+  const logout = () => {
+    Axios.get("/api/users/logout").then((resp) => {
+      console.log(resp);
+      navigate("/login");
+    });
+  };
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -50,10 +58,7 @@ const Header = () => {
           <div className="header-logo">
             <div>
               <Link to="/main">
-                <img
-                  src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"
-                  alt="instagram logo"
-                />
+                <img src={InstagramLogo} alt="instagram logo" />
               </Link>
             </div>
           </div>
@@ -67,9 +72,9 @@ const Header = () => {
             <Inbox />
             <Explore />
             <Activity />
-            <div className="header-profile" onClick={showDrop}>
-              {loggedIn && userInfo.image ? (
-                <img src={userInfo.image} alt="profile" />
+            <div className="header-profile" onClick={showDrop} ref={profileRef}>
+              {loggedIn && profileInfo.image ? (
+                <img src={profileInfo.image} alt="profile" />
               ) : (
                 <img
                   src="https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png"
@@ -85,9 +90,8 @@ const Header = () => {
                       <Profile /> Profile
                     </li>
                   </Link>
-                  <Link to="/logout">
-                    <li>Logout</li>
-                  </Link>
+
+                  <li onClick={logout}>Logout</li>
                 </ul>
               </div>
             )}

@@ -43,6 +43,7 @@ export const registerValidator = (req, res, next) => {
     username: Joi.string().min(2).max(50).required(),
     first_name: Joi.string().min(2).max(50).required(),
     last_name: Joi.string().min(2).max(50).required(),
+    image: Joi.string().allow(""),
     email: Joi.string().email().min(2).max(50).required(),
     password: Joi.string().min(4).max(12).required(),
   });

@@ -7,7 +7,7 @@ import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   // const options = {};
   // if (req.query.order) {
   //   options.order = [["createdAt", "ASC"]];
@@ -34,7 +34,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
+router.get("/user/:id", auth, async (req, res) => {
   try {
     const posts = await db.Posts.findAll({
       where: {
@@ -81,6 +81,34 @@ router.put(
     try {
       const post = await db.Posts.findByPk(req.params.id);
       post.update(req.body);
+      res.send("Post successfuly updated");
+    } catch {
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+//edit author images on posts
+router.put(
+  "/api/posts/edit-post-author-image/:id",
+  upload.single("author_image"),
+  async (req, res) => {
+    if (req.file) {
+      req.body.image = req.body.author_image;
+      req.body.author_image = "/uploads/" + req.file.filename;
+    }
+    try {
+      const { author_image } = req.body;
+      const post = await db.Posts.findAll({
+        where: {
+          userId: req.params.id,
+        },
+      });
+      post.forEach((post) => {
+        post.update({
+          author_image,
+        });
+      });
       res.send("Post successfuly updated");
     } catch {
       res.status(500).send("Server error");

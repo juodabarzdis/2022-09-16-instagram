@@ -48,10 +48,12 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
+  width: 16rem;
 }
 
-.profile-header h2 {
+h2 {
   font-weight: 200;
+  margin: 0;
 }
 
 .profile-buttons {
@@ -77,4 +79,31 @@
   color: #000;
   width: 34px;
   padding: 5px 0;
+}
+
+.edit-btn {
+  width: 100px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  text-align: center;
+  height: 25px;
+  line-height: 25px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 12rem;
+}
+
+.profile-statistics {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20rem;
+}
+
+.bold {
+  font-weight: 600;
 }

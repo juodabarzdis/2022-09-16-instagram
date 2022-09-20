@@ -11,7 +11,7 @@ import Liked from "../icons/Liked";
 
 const Post = (props) => {
   const inputRef = useRef(null);
-  const {
+  let {
     image,
     caption,
     id,
@@ -22,11 +22,13 @@ const Post = (props) => {
     setRefresh,
     author_image,
     currentUser,
+    createdAt,
   } = props;
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
+  createdAt = new Date(createdAt).toLocaleString("lt-LT");
 
   useEffect(() => {
     Axios.get("/api/posts/" + id).then((res) => {
@@ -57,7 +59,7 @@ const Post = (props) => {
       });
       setLikes(res.data);
     });
-  }, [refresh]);
+  }, [liked]);
 
   const handleLike = () => {
     Axios.post("/api/likes/" + id, {
@@ -65,40 +67,11 @@ const Post = (props) => {
       userId,
     }).then((res) => {
       setLiked(!liked);
-      setRefresh(!refresh);
     });
   };
-
-  // const handleLike = async (e) => {
-  //   e.preventDefault();
-  //   if (liked) {
-  //     await Axios.get("/api/likes/" + id).then((res) => {
-  //       const data = res.data;
-  //       // console.log(data);
-  //       data.map((element) => {
-  //         if (element.userId === userId) {
-  //           console.log("rastas likeas");
-  //           Axios.delete("/api/likes/delete/" + element.id).then((res) => {
-  //             setRefresh(!refresh);
-  //           });
-  //         }
-  //       });
-  //     });
-  //   } else {
-  //     Axios.post("/api/likes/" + id, {
-  //       like: 1,
-  //       userId,
-  //     }).then((res) => {
-  //       setLiked(!liked);
-  //       setRefresh(!refresh);
-  //     });
-  //   }
-  // };
-
   const handleImageLike = (e) => {
     if (e.detail === 2) {
       handleLike(e);
-      setLiked(!liked);
     }
   };
 
@@ -125,7 +98,7 @@ const Post = (props) => {
         </div>
       </div>
       <div className="post-image" onClick={(e) => handleImageLike(e)}>
-        <img src={image} alt="" />
+        <img src={image} alt="post" />
       </div>
       <div className="post-functions">
         <div className="post-functions-left">
@@ -141,7 +114,6 @@ const Post = (props) => {
       </div>
       <div className="post-likes">
         {likes.length} {likes.length === 1 ? "like" : "likes"}
-        <p></p>
       </div>
       <div className="post-caption">
         <p>
@@ -160,7 +132,7 @@ const Post = (props) => {
         ))}
       </div>
       <div className="post-time">
-        <p>1 hour ago</p>
+        <p>{createdAt}</p>
       </div>
       <div className="post-write-comment">
         <form onSubmit={(e) => handleForm(e)}>

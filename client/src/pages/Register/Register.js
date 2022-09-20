@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Axios from "axios";
 import "./Register.css";
+import InstagramLogo from "../../images/instagram-logo.png";
 
 const Register = () => {
   const [alert, setAlert] = useState("");
@@ -37,10 +38,7 @@ const Register = () => {
     <div className="register">
       <div className="register-container">
         <div className="register-logo">
-          <img
-            src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"
-            alt="instagram logo"
-          />
+          <img src={InstagramLogo} alt="instagram logo" />
         </div>
         <div className="register-title">
           <h2>Sign up to see photos and videos from your friends.</h2>

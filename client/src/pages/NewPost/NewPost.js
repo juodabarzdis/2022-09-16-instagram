@@ -5,13 +5,14 @@ import MainContext from "../../context/MainContext";
 import "./Modal.css";
 
 const NewPost = ({ showModal, setShowModal }) => {
-  const { userInfo } = useContext(MainContext);
+  const { userInfo, profileImage, refresh, setRefresh } =
+    useContext(MainContext);
   const [postForm, setPostForm] = useState({
     image: "",
     caption: "",
     userId: userInfo.id,
     username: userInfo.username,
-    author_image: userInfo.image ? userInfo.image : "",
+    author_image: profileImage ? profileImage : "",
   });
   const [filepreview, setFilepreview] = useState("");
   const modalRef = useRef(null);
@@ -49,7 +50,8 @@ const NewPost = ({ showModal, setShowModal }) => {
     Axios.post("/api/posts/", form).then(
       (resp) => console.log(resp),
       setTimeout(() => {
-        navigate("/main");
+        setShowModal(!showModal);
+        setRefresh(!refresh);
       }, 1000)
     );
   };
@@ -82,19 +84,23 @@ const NewPost = ({ showModal, setShowModal }) => {
 
               <div className="modal-right">
                 <form action="">
-                  <div>
-                    <label htmlFor="image">Image</label>
+                  <div className="modal-input">
                     <input
                       type="file"
                       name="image"
                       onChange={(handleForm, handleFile)}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="caption">Caption</label>
-                    <input type="text" name="caption" onChange={handleForm} />
+                  <div className="modal-caption">
+                    <textarea
+                      type="text"
+                      name="caption"
+                      onChange={handleForm}
+                    />
                   </div>
-                  <button onClick={handleSubmit}>Submit</button>
+                  <button className="btn" onClick={handleSubmit}>
+                    Submit
+                  </button>
                 </form>
               </div>
             </div>

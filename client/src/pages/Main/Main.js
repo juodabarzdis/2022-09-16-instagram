@@ -6,9 +6,8 @@ import MainContext from "../../context/MainContext";
 import "./Main.css";
 
 const Main = () => {
-  const { loggedIn, userInfo } = useContext(MainContext);
+  const { loggedIn, userInfo, refresh, setRefresh } = useContext(MainContext);
   const [posts, setPosts] = useState([]);
-  const [refresh, setRefresh] = useState(false);
 
   // if (!loggedIn) {
   //   window.location.href = "/login";
@@ -17,11 +16,10 @@ const Main = () => {
   useEffect(() => {
     Axios.get("/api/posts/")
       .then((res) => {
-        console.log(res);
         setPosts(res.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="main">
@@ -40,6 +38,7 @@ const Main = () => {
           username={post.user.username}
           currentUser={userInfo.username}
           likes={post.likes}
+          createdAt={post.createdAt}
         />
       ))}
     </div>

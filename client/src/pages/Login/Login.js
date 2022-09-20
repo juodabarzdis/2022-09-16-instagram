@@ -4,6 +4,7 @@ import MainContext from "../../context/MainContext";
 import Axios from "axios";
 import PhoneImage from "../../images/insta-phone.png";
 import "./Login.css";
+import InstagramLogo from "../../images/instagram-logo.png";
 
 const Login = () => {
   const { setLoggedIn, setUserInfo, setAlert } = useContext(MainContext);
@@ -62,10 +63,7 @@ const Login = () => {
         <div className="login-right">
           <div className="register-container login-container">
             <div className="register-logo">
-              <img
-                src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"
-                alt="instagram logo"
-              />
+              <img src={InstagramLogo} alt="instagram logo" />
             </div>
             <div className="register-title">
               <h2>Login to see photos and videos from your friends.</h2>
