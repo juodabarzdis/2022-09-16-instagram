@@ -71,6 +71,7 @@ const Post = (props) => {
       setLiked(!liked);
     });
   };
+
   const handleImageLike = (e) => {
     if (e.detail === 2) {
       handleLike(e);

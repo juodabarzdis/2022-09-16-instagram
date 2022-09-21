@@ -16,6 +16,8 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const profileRef = useRef(null);
   const [showProfile, setShowProfile] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const navigate = useNavigate();
 
@@ -48,6 +50,14 @@ const Header = () => {
     }
   }, [showModal]);
 
+  useEffect(() => {
+    Axios.get("/api/users/search/" + search).then((res) => {
+      console.log(res);
+      setSearchResults(res.data);
+    });
+  }, [search]);
+  console.log(searchResults);
+
   return (
     <>
       <div className="header" onClick={closeModal}>
@@ -63,8 +73,29 @@ const Header = () => {
             </div>
           </div>
           <div className="header-search">
-            <input type="text" placeholder="Search" />
+            <input
+              onChange={(e) => setSearch(e.target.value)}
+              type="text"
+              placeholder="Search"
+            />
+            {search !== "" && (
+              <div className="header-search-results">
+                <ul>
+                  {searchResults.map((user) => (
+                    <li key={user.id}>
+                      <Link to={"/profile/" + user.id}>
+                        <div className="header-search-result-row">
+                          <img src={user.image} alt="" />
+                          <p>{user.username}</p>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+
           <div className="header-icons">
             <div onClick={openModal} className="header-newPost">
               <NewPost />

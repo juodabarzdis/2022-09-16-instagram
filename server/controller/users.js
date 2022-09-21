@@ -1,5 +1,6 @@
 import express from "express";
 import db from "../database/connect.js";
+import { Op } from "sequelize";
 import bcrypt from "bcrypt";
 import { registerValidator, loginValidator } from "../middleware/validate.js";
 import { auth } from "../middleware/auth.js";
@@ -82,16 +83,7 @@ router.put("/edit/:id", upload.single("image"), async (req, res) => {
     if (user) {
       const { image } = req.body;
 
-      await db.Users.update(
-        {
-          image,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
+      await db.Users.update({ image }, { where: { id: req.params.id } });
       await db.Posts.update(
         {
           author_image: image,
@@ -106,6 +98,23 @@ router.put("/edit/:id", upload.single("image"), async (req, res) => {
     } else {
       res.status(400).send("User not found");
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/search/:search", async (req, res) => {
+  const username = req.params.search;
+  try {
+    const users = await db.Users.findAll({
+      where: {
+        username: {
+          [Op.like]: "%" + username + "%",
+        },
+      },
+    });
+    res.json(users);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

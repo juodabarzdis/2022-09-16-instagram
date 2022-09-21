@@ -69,7 +69,17 @@ const Profile = () => {
               <div>
                 <h2>{user.username}</h2>
               </div>
-              {loggedIn && userInfo.id === user.id ? null : (
+              {loggedIn && userInfo.id === user.id ? (
+                <div className="flex">
+                  <Link
+                    to={"/profile/edit/" + id}
+                    className="btn profile-btn edit-btn"
+                  >
+                    Edit profile
+                  </Link>
+                  <SettingsIcon />
+                </div>
+              ) : (
                 <div className="profile-buttons">
                   <button className="btn profile-btn">Message</button>
                   <button className="btn profile-btn btn-blue">Follow</button>
@@ -78,15 +88,6 @@ const Profile = () => {
                   </button>
                 </div>
               )}
-              <div className="flex">
-                <Link
-                  to={"/profile/edit/" + id}
-                  className="btn profile-btn edit-btn"
-                >
-                  Edit profile
-                </Link>
-                <SettingsIcon />
-              </div>
             </div>
             <div className="profile-statistics">
               <div>

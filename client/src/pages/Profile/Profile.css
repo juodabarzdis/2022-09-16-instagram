@@ -48,7 +48,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
-  width: 16rem;
+  min-width: 16rem;
 }
 
 h2 {
