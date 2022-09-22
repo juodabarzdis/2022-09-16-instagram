@@ -25,6 +25,25 @@ Router.get("/:userId", async (req, res) => {
   }
 });
 
+Router.get("/followers/:userId", async (req, res) => {
+  try {
+    const followers = await db.Followings.findAll({
+      where: {
+        followingId: req.params.userId,
+      },
+    });
+    const followersList = await db.Users.findAll({
+      where: {
+        id: followers.map((follower) => follower.userId),
+      },
+    });
+    res.json(followersList);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
 Router.post("/add/", async (req, res) => {
   try {
     const existingFollowing = await db.Followings.findAll({

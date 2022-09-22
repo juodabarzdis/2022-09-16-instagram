@@ -5,8 +5,7 @@ import Header from "../../components/Header/Header";
 import "./Profile.css";
 import Dots from "../../components/icons/Dots";
 import MainContext from "../../context/MainContext";
-import EditProfile from "./EditProfile";
-import SettingsIcon from "../../components/icons/Settings";
+import FollowModal from "./FollowModal";
 
 const Profile = () => {
   const { loggedIn, userInfo, refresh, profileInfo } = useContext(MainContext);
@@ -15,6 +14,7 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [followed, setFollowed] = useState(false);
   const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -53,7 +53,6 @@ const Profile = () => {
   // checking if user is followed
   useEffect(() => {
     Axios.get("/api/followings/" + userInfo.id).then((res) => {
-      console.log(res.data.followings);
       res.data.followings.map((following) => {
         if (following.userId == profileInfo.id && following.followingId == id) {
           setFollowed(true);
@@ -62,6 +61,7 @@ const Profile = () => {
     });
   }, [id, followed, profileInfo.id, posts]);
 
+  // getting all users that are followed
   useEffect(() => {
     Axios.get("/api/followings/" + id).then((res) => {
       setFollowing(res.data.followingsList);
@@ -69,14 +69,28 @@ const Profile = () => {
   }, [id]);
   console.log(followed);
 
+  // getting all followers
+
+  useEffect(() => {
+    Axios.get("/api/followings/followers/" + id).then((res) => {
+      console.log(res.data);
+      setFollowers(res.data);
+    });
+  }, [id]);
+
   return (
     <div>
       <Header />
+      <FollowModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        followers={followers}
+      />
       <div className="profile-wrapper">
         <div className="profile-container">
           <div className="profile-container-left">
             <div className="profile-image-container">
-              <div onClick={openModal}>
+              <div>
                 {user.image ? (
                   <div
                     className="profile-image"
@@ -127,13 +141,13 @@ const Profile = () => {
             </div>
             <div className="profile-statistics">
               <div>
-                <span className="bold">{posts.length}</span> posts
+                <span className="bold">{posts.length}</span>posts
               </div>
-              <div>
-                <span className="bold">100</span> followers
+              <div style={{ cursor: "pointer" }} onClick={openModal}>
+                <span className="bold">{followers?.length}</span>followers
               </div>
-              <div>
-                <span className="bold">{following.length}</span> following
+              <div style={{ cursor: "pointer" }}>
+                <span className="bold">{following.length}</span>following
               </div>
             </div>
           </div>

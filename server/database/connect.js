@@ -71,7 +71,7 @@ try {
 
   // Sync database
 
-  await sequelize.sync({ alter: false }); // alter: true - if table already exist, it will not create new table, but it will add new column
+  await sequelize.sync({ alter: true }); // alter: true - if table already exist, it will not create new table, but it will add new column
 } catch (error) {
   console.log(error);
   console.log("Error connecting to database");
