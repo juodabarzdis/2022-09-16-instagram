@@ -1,5 +1,4 @@
 import React, { useRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import MainContext from "../../context/MainContext";
 import "./Modal.css";
@@ -21,7 +20,6 @@ const NewPost = ({ showModal, setShowModal }) => {
       setShowModal(false);
     }
   };
-  const navigate = useNavigate();
 
   const handleForm = (e) => {
     setPostForm({
@@ -55,8 +53,6 @@ const NewPost = ({ showModal, setShowModal }) => {
       }, 1000)
     );
   };
-
-  console.log(postForm);
 
   return (
     <>

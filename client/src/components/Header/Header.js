@@ -60,7 +60,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="header" onClick={closeModal}>
+      <div ref={profileRef} className="header" onClick={closeModal}>
         {showModal && (
           <AddNewPost showModal={showModal} setShowModal={setShowModal} />
         )}
