@@ -64,12 +64,9 @@ const Header = () => {
 
   useEffect(() => {
     Axios.get("/api/users/search/" + search).then((res) => {
-      console.log(res);
       setSearchResults(res.data);
     });
   }, [search]);
-
-  console.log(searchResults);
 
   return (
     <>

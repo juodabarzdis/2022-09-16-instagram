@@ -6,6 +6,7 @@ import Users from "../model/users.js";
 import Posts from "../model/posts.js";
 import Comments from "../model/comments.js";
 import Likes from "../model/likes.js";
+import Followings from "../model/followings.js";
 
 const database = {};
 
@@ -46,6 +47,9 @@ try {
   database.Posts = Posts(sequelize);
   database.Comments = Comments(sequelize);
   database.Likes = Likes(sequelize);
+  database.Followings = Followings(sequelize);
+
+  //followings
 
   // Create relationships
 
@@ -59,6 +63,11 @@ try {
   database.Comments.belongsTo(database.Posts);
   database.Likes.belongsTo(database.Users);
   database.Likes.belongsTo(database.Posts);
+
+  //following
+
+  database.Users.hasMany(database.Followings);
+  database.Followings.belongsTo(database.Users);
 
   // Sync database
 

@@ -5,6 +5,7 @@ import Users from "./controller/users.js";
 import Posts from "./controller/posts.js";
 import Comments from "./controller/comments.js";
 import Likes from "./controller/likes.js";
+import Followings from "./controller/followings.js";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/users", Users);
 app.use("/api/posts", Posts);
 app.use("/api/comments", Comments);
 app.use("/api/likes", Likes);
+app.use("/api/followings", Followings);
 
 app.use("/uploads", express.static("uploads"));
 

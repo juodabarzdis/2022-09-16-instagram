@@ -47,7 +47,6 @@ function App() {
 
   useEffect(() => {
     Axios.get("/api/users/user/" + userInfo.id).then((res) => {
-      console.log(res.data);
       setProfileInfo(res.data);
     });
   }, [userInfo, refresh]);

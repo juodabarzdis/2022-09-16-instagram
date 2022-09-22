@@ -14,8 +14,6 @@ const Explore = () => {
     });
   }, []);
 
-  console.log(posts);
-
   return (
     <>
       <div>

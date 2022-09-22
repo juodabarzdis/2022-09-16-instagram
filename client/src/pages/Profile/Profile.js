@@ -9,14 +9,15 @@ import EditProfile from "./EditProfile";
 import SettingsIcon from "../../components/icons/Settings";
 
 const Profile = () => {
-  const { loggedIn, userInfo, refresh } = useContext(MainContext);
+  const { loggedIn, userInfo, refresh, profileInfo } = useContext(MainContext);
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [followed, setFollowed] = useState(false);
+  const [following, setFollowing] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
-    console.log("launched");
     Axios.get("/api/users/user/" + id).then((res) => {
       setUser(res.data);
     });
@@ -39,6 +40,34 @@ const Profile = () => {
   //     document.body.style.overflow = "scroll";
   //   }
   // }, [showModal]);
+
+  const handleFollow = () => {
+    Axios.post("/api/followings/add/", {
+      userId: profileInfo.id,
+      followingId: id,
+    }).then((res) => {
+      setFollowed(!followed);
+    });
+  };
+
+  // checking if user is followed
+  useEffect(() => {
+    Axios.get("/api/followings/" + userInfo.id).then((res) => {
+      console.log(res.data.followings);
+      res.data.followings.map((following) => {
+        if (following.userId == profileInfo.id && following.followingId == id) {
+          setFollowed(true);
+        }
+      });
+    });
+  }, [id, followed, profileInfo.id, posts]);
+
+  useEffect(() => {
+    Axios.get("/api/followings/" + id).then((res) => {
+      setFollowing(res.data.followingsList);
+    });
+  }, [id]);
+  console.log(followed);
 
   return (
     <div>
@@ -82,7 +111,14 @@ const Profile = () => {
               ) : (
                 <div className="profile-buttons">
                   <button className="btn profile-btn">Message</button>
-                  <button className="btn profile-btn btn-blue">Follow</button>
+                  <button
+                    onClick={handleFollow}
+                    {...(followed
+                      ? { className: "btn profile-btn" }
+                      : { className: "btn profile-btn btn-blue" })}
+                  >
+                    {followed ? "Unfollow" : "Follow"}
+                  </button>
                   <button className="btn profile-btn btn-dots">
                     <Dots />
                   </button>
@@ -97,7 +133,7 @@ const Profile = () => {
                 <span className="bold">100</span> followers
               </div>
               <div>
-                <span className="bold">100</span> following
+                <span className="bold">{following.length}</span> following
               </div>
             </div>
           </div>

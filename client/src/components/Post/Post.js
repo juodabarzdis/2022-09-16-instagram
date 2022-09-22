@@ -30,6 +30,7 @@ const Post = (props) => {
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
   const [showDots, setShowDots] = useState(false);
+
   createdAt = new Date(createdAt).toLocaleString("lt-LT");
 
   useEffect(() => {
