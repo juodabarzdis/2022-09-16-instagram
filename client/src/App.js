@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login";
 import Main from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";
 import EditProfile from "./pages/Profile/EditProfile";
+import Explore from "./pages/Explore/Explore";
 
 function App() {
   const [profileInfo, setProfileInfo] = useState({});
@@ -37,8 +38,6 @@ function App() {
     setProfileInfo,
   };
 
-  console.log(userInfo);
-
   useEffect(() => {
     Axios.get("/api/users/check-auth").then((res) => {
       setLoggedIn(true);
@@ -63,6 +62,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/profile/edit/:id" element={<EditProfile />} />
+          <Route path="/explore" element={<Explore />} />
         </Routes>
       </MainContext.Provider>
     </BrowserRouter>

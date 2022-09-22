@@ -1,0 +1,66 @@
+.explore-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.explore-grid {
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+}
+
+.grid-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 293px;
+  height: 293px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.grid-image img:hover {
+  transform: scale(1.05);
+  transition: transform 0.5s ease-in-out;
+}
+
+.overlay-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-image-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.23);
+  opacity: 0;
+  cursor: pointer;
+}
+
+.grid-image:hover > div {
+  transition: 300ms;
+  opacity: 1;
+}
+
+.overlay-flex > div {
+  margin: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.grid-image-overlay-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-image-overlay-content > div {
+  margin: 20px;
+}

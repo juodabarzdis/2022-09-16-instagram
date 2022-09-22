@@ -14,7 +14,7 @@ router.get("/", auth, async (req, res) => {
   // }
   try {
     const posts = await db.Posts.findAll({
-      include: [db.Users, db.Likes],
+      include: [db.Users, db.Likes, db.Comments],
       order: [["createdAt", "DESC"]],
     });
     res.json(posts);

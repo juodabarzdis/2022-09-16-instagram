@@ -22,8 +22,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const closeModal = (e) => {
-    if (profileRef.current === e.target) {
-      setShowProfile(!false);
+    if (profileRef.current && !profileRef.current.contains(e.target)) {
+      setShowProfile(false);
     }
   };
 
@@ -31,9 +31,21 @@ const Header = () => {
     setShowProfile((prev) => !prev);
   };
 
+  // close drop when clicking outside of it
+  const handleBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setShowProfile((prev) => !prev);
+    }
+  };
+
+  const handleSearchBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setSearch("");
+    }
+  };
+
   const logout = () => {
     Axios.get("/api/users/logout").then((resp) => {
-      console.log(resp);
       navigate("/login");
     });
   };
@@ -46,7 +58,7 @@ const Header = () => {
     if (showModal === true) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = "auto";
     }
   }, [showModal]);
 
@@ -56,6 +68,7 @@ const Header = () => {
       setSearchResults(res.data);
     });
   }, [search]);
+
   console.log(searchResults);
 
   return (
@@ -72,7 +85,11 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <div className="header-search">
+          <div
+            className="header-search"
+            tabIndex="-1"
+            onBlur={handleSearchBlur}
+          >
             <input
               onChange={(e) => setSearch(e.target.value)}
               type="text"
@@ -101,9 +118,17 @@ const Header = () => {
               <NewPost />
             </div>
             <Inbox />
-            <Explore />
+            <Link to="/explore">
+              <Explore />
+            </Link>
             <Activity />
-            <div className="header-profile" onClick={showDrop} ref={profileRef}>
+            <div
+              className="header-profile"
+              tabIndex="-1"
+              onClick={showDrop}
+              onBlur={handleBlur}
+              ref={profileRef}
+            >
               {loggedIn && profileInfo.image ? (
                 <img src={profileInfo.image} alt="profile" />
               ) : (
@@ -112,20 +137,20 @@ const Header = () => {
                   alt=""
                 />
               )}
-            </div>
-            {showProfile && (
-              <div className="header-profile-drop">
-                <ul>
-                  <Link to={"/profile/" + userInfo.id}>
-                    <li>
-                      <Profile /> Profile
-                    </li>
-                  </Link>
+              {showProfile && (
+                <div className="header-profile-drop">
+                  <ul>
+                    <Link to={"/profile/" + userInfo.id}>
+                      <li>
+                        <Profile /> Profile
+                      </li>
+                    </Link>
 
-                  <li onClick={logout}>Logout</li>
-                </ul>
-              </div>
-            )}
+                    <li onClick={logout}>Logout</li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

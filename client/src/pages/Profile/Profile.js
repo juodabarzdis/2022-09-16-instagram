@@ -16,16 +16,17 @@ const Profile = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    console.log("launched");
     Axios.get("/api/users/user/" + id).then((res) => {
       setUser(res.data);
     });
-  }, [refresh]);
+  }, [refresh, id]);
 
   useEffect(() => {
     Axios.get("/api/posts/user/" + id).then((res) => {
       setPosts(res.data);
     });
-  }, [refresh]);
+  }, [refresh, id]);
 
   const openModal = () => {
     setShowModal((prev) => !prev);
@@ -77,7 +78,6 @@ const Profile = () => {
                   >
                     Edit profile
                   </Link>
-                  <SettingsIcon />
                 </div>
               ) : (
                 <div className="profile-buttons">
@@ -91,7 +91,7 @@ const Profile = () => {
             </div>
             <div className="profile-statistics">
               <div>
-                <span className="bold">100</span> posts
+                <span className="bold">{posts.length}</span> posts
               </div>
               <div>
                 <span className="bold">100</span> followers
