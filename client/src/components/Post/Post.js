@@ -31,7 +31,14 @@ const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [showDots, setShowDots] = useState(false);
 
-  createdAt = new Date(createdAt).toLocaleString("lt-LT");
+  createdAt = new Date(createdAt).toLocaleString("lt-LT", {
+    timeZone: "Europe/Vilnius",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   useEffect(() => {
     Axios.get("/api/posts/" + id).then((res) => {

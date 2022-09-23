@@ -139,7 +139,12 @@ const Header = () => {
                   <ul>
                     <Link to={"/profile/" + userInfo.id}>
                       <li>
-                        <Profile /> Profile
+                        <div style={{ display: "flex" }}>
+                          <div style={{ marginRight: "8px" }}>
+                            <Profile />
+                          </div>
+                          <div> Profile</div>
+                        </div>
                       </li>
                     </Link>
 

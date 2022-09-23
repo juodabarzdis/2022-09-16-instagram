@@ -6,12 +6,14 @@ import "./Profile.css";
 import Dots from "../../components/icons/Dots";
 import MainContext from "../../context/MainContext";
 import FollowModal from "./FollowModal";
+import FollowingModal from "./FollowingModal";
 
 const Profile = () => {
   const { loggedIn, userInfo, refresh, profileInfo } = useContext(MainContext);
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [followed, setFollowed] = useState(false);
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -31,6 +33,9 @@ const Profile = () => {
 
   const openModal = () => {
     setShowModal((prev) => !prev);
+  };
+  const openFollowingModal = () => {
+    setShowFollowingModal((prev) => !prev);
   };
 
   // useEffect(() => {
@@ -66,7 +71,7 @@ const Profile = () => {
     Axios.get("/api/followings/" + id).then((res) => {
       setFollowing(res.data.followingsList);
     });
-  }, [id]);
+  }, [id, followed]);
   console.log(followed);
 
   // getting all followers
@@ -76,7 +81,7 @@ const Profile = () => {
       console.log(res.data);
       setFollowers(res.data);
     });
-  }, [id]);
+  }, [id, followed]);
 
   return (
     <div>
@@ -85,6 +90,11 @@ const Profile = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         followers={followers}
+      />
+      <FollowingModal
+        showFollowingModal={showFollowingModal}
+        setShowFollowingModal={setShowFollowingModal}
+        following={following}
       />
       <div className="profile-wrapper">
         <div className="profile-container">
@@ -146,7 +156,7 @@ const Profile = () => {
               <div style={{ cursor: "pointer" }} onClick={openModal}>
                 <span className="bold">{followers?.length}</span>followers
               </div>
-              <div style={{ cursor: "pointer" }}>
+              <div style={{ cursor: "pointer" }} onClick={openFollowingModal}>
                 <span className="bold">{following.length}</span>following
               </div>
             </div>

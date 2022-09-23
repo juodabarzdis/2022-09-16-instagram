@@ -4,38 +4,53 @@ import Axios from "axios";
 import MainContext from "../../context/MainContext";
 import "./FollowModal.css";
 
-const FollowModal = ({ showModal, setShowModal, followers }) => {
+const FollowModal = ({
+  showFollowingModal,
+  setShowFollowingModal,
+  following,
+}) => {
   const modalRef = useRef(null);
 
-  const closeModal = (e) => {
+  const closeFollowingModal = (e) => {
     if (modalRef.current === e.target) {
-      setShowModal(false);
+      setShowFollowingModal(false);
     }
   };
 
   return (
     <>
-      {showModal ? (
-        <div className="modal-wrapper" ref={modalRef} onClick={closeModal}>
+      {showFollowingModal ? (
+        <div
+          className="modal-wrapper"
+          ref={modalRef}
+          onClick={closeFollowingModal}
+        >
           <div className="modal">
             <div className="modal-content">
               <div
-                onClick={() => setShowModal((prev) => !prev)}
+                onClick={() => setShowFollowingModal((prev) => !prev)}
                 className="modal-exit"
               >
                 X
               </div>
               <div className="following-modal-content">
                 <div>
-                  <h2>Followers</h2>
+                  <h2>Following</h2>
                   <div className="">
                     <ul>
-                      {followers.map((follower) => (
+                      {following.map((follower) => (
                         <div className="follower">
                           <Link to={"/profile/" + follower.id}>
                             <div className="follower-content">
                               <div style={{ margin: "0 10px 0 0" }}>
-                                <img src={follower.image} alt="" />
+                                <img
+                                  src={
+                                    follower.image
+                                      ? follower.image
+                                      : "https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png"
+                                  }
+                                  alt=""
+                                />
                               </div>
                               <div>
                                 <p>{follower.username}</p>
